@@ -1,0 +1,21 @@
+ <!DOCTYPE RCC><RCC version="1.0">
+ <qresource>
+     <file>images/copy.png</file>
+     <file>images/cut.png</file>
+     <file>images/new.png</file>
+     <file>images/open.png</file>
+     <file>images/paste.png</file>
+     <file>images/save.png</file>
+     <file>images/startButton.jpg</file>
+     <file>images/stopButton.jpg</file>
+     <file>images/stop3.jpg</file>
+     <file>images/kit.jpg</file>
+     <file>images/tukuba.jpg</file>
+     <file>images/play.jpg</file>
+     <file>maps/tukubaPark10.jpg</file>
+     <file>maps/kitMap090823.jpg</file>
+     <file>images/speak.png</file>
+     <file>images/stopIcon.png</file>
+     <file>images/maps.png</file>
+ </qresource>
+ </RCC>

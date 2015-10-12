@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -O2 -g -DNDEBUG   -shared -Wl,-soname,libgtest.so -o /home/demulab/tukuba_ws/src/tukuba9.1/hokuyo_node/lib/libgtest.so CMakeFiles/gtest.dir/src/gtest-all.cc.o  -L/home/demulab/tukuba_ws/src/tukuba9.1/hokuyo_node/build/gtest/src -lpthread -Wl,-rpath,/home/demulab/tukuba_ws/src/tukuba9.1/hokuyo_node/build/gtest/src 

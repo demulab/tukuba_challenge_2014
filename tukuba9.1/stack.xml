@@ -1,0 +1,9 @@
+<stack>
+  <description brief="tukuba9">tukuba9</description>
+  <author>Maintained by kensei5</author>
+  <license>BSD</license>  
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/tukuba9</url>
+  <depend stack="ros" />
+
+</stack>

@@ -1,0 +1,4 @@
+const double TUKUBA_MAP_LON[2] = {140.10900735855103,140.1126927137375};  // longitude
+const double TUKUBA_MAP_LAT[2] = { 36.086199308940024,36.0827094303493} ; // latitude
+const int TUKUBA_MAP_POINT_X[2] = { 552,2931};
+const int TUKUBA_MAP_POINT_Y[2] = { 280,3058};

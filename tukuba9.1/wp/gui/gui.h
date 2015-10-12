@@ -1,0 +1,97 @@
+/*** WayPoint Maker 2011 http://demura.net ***/
+
+//!  GUIのヘッダファイル
+/*!
+ \file   gui.h
+ \author Kosei Demura
+ \date   2010-09-07
+*/
+
+#ifndef Gui_H
+#define Gui_H
+
+#include <QtGui/QMessageBox>
+#include <QtGui/QPainter>
+#include <QFileDialog>
+#include <QTextStream>
+#include <QStyleOptionSlider>
+#include <QPlastiqueStyle>
+#include <QMotifStyle>
+#include <QWindowsXPStyle>
+#include <QApplication>
+#include <QSplashScreen>
+#include <QTextCodec>
+#include <QTimer>
+
+#include <sstream>
+#include <iostream>
+#include <cmath>
+
+#include <iomanip>
+#include <time.h>
+#include <sys/time.h>
+
+
+
+
+
+#include <QWidget>
+#include <QPixmap>
+#include <QRect>
+#include <QDial>
+#include <QSlider>
+#include <QFile>
+#include "ui_mainwindow.h"
+
+
+//! GUIクラス
+class GuiClass : public QWidget
+{
+    Q_OBJECT
+
+public:
+    GuiClass(QWidget * iParent, Qt::WindowFlags iFlags = 0);
+    ~GuiClass();
+    void   setScale(double value);  //!< 縮尺を設定
+    double getScale();              //!< 縮尺を取得
+    void   setupEnv();              //!< 環境のセットアップ
+    int    lonToPixel(double lon);  //!< 経度からピクセルへの変換
+    int    latToPixel(double lat);  //!< 緯度からピクセルへの変換
+    double lonToMeter(double lon);  //!< 経度からメートルへの変換
+    double latToMeter(double lat);  //!< 緯度からメートルへの変換
+    double pixToLon(int pix_x);     //!< ピクセルから経度への変換
+    double pixToLat(int pix_y);     //!< ピクセルから緯度への変換
+    void openFile(const QString &); //!< ファイルを開く
+    bool   map_movable;                 //!< 地図移動機能 ON
+	
+	int getWidth();
+	int getHeight();
+
+
+    QFile log_file;                 //!< ログファイル
+
+    QSize sizeHint() const;
+protected:
+    void paintEvent(QPaintEvent* event);      //!<　描画イベント
+    void mousePressEvent(QMouseEvent *event); //!< マウスを押したときのイベント処理
+    void mouseMoveEvent(QMouseEvent *event);  //!<  マウスを移動したときのイベント処理
+
+private:
+    QPixmap   pixmap;
+    //QLabel    *map_label;
+    QPolygon  point_red, point_blue, point_green, point_black;
+    QPolygon  gps_points_saved, gps2_points_saved, reckoning_points_saved, particle_points_saved, localization_points_saved;
+    QPoint    rightClickPos;         //!< マウス右ボタンを押したときの位置
+    QPoint    leftClickPos;          //!< マウス左ボタンを押したときの位置
+    void  readFile(const QString &); //!< ファイルの読み込み
+    void  printWayPoints(int offset_x, int offset_y, int dx, int dy, QPainter &painter); //!< ウェイポイントの表示
+    void  printInfo(int x, int y, QPainter &painter);  //!< 情報の表示
+    void  drawPos(int x, int y, QPainter &painter, QPolygon &points_saved); //!< 位置表示
+    void  drawMapAndRobotPos(int offset_x, int offset_y); //!< 地図とロボット位置の表示
+    void  playLog(QPainter &painter); //!< ログの実行
+    double scale;      //!< 縮尺
+    double move_coeff; //!< 地図をクリックしたときの移動係数
+};
+
+
+#endif

@@ -1,0 +1,27 @@
+/* Laser Scanner1 */
+/dev/ttyACM0
+
+/* Ublox GPS */
+/dev/ttyACM2
+
+/* A100  GPS */
+/dev/ttyUSB2
+
+/* Compass */   
+/dev/ttyUSB1
+
+/* FOG デバイス */ 
+/dev/ttyUSB0
+
+/* RX64 Device */ 
+/dev/ttyUSB3
+
+/* IMCS01 モータ制御デバイス */
+/dev/urbtc0
+
+/* Joystick for Remote controller */
+/dev/input/js0
+
+/* Laser Scanner2 */
+/dev/ttyACM1   
+
