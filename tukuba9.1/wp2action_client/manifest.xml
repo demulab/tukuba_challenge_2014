@@ -1,0 +1,22 @@
+<package>
+  <description brief="wp2action_client">
+
+     wp2action_client
+
+  </description>
+  <author>kensei5</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/wp2action_client</url>
+  <depend package="roscpp"/>
+  <depend package="rospy"/>
+  <depend package="std_msgs"/>
+  <depend package="geometry_msgs"/>
+  <depend package="move_base_msgs"/>
+  <depend package="tf"/>
+  <depend package="actionlib"/>
+  <depend package="move_base"/>
+
+</package>
+
+

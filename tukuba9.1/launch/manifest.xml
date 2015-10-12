@@ -1,0 +1,16 @@
+<package>
+  <description brief="launch">
+
+     launch
+
+  </description>
+  <author>yuichiro</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/launch</url>
+  <depend package="roscpp"/>
+  <depend package="rospy"/>
+
+</package>
+
+

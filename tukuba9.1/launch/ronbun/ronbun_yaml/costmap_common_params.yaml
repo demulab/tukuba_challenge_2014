@@ -1,0 +1,32 @@
+#obstacle_range: 10.0
+#raytrace_range: 15.0
+footprint: [[0.3, 0.3], [0.35,0.0], [0.3, -0.3] ,[-0.55,-0.3], [-0.55,0.3]]
+#footprint: [[0.3, 0.3], [0.35,0.0], [0.3, -0.3] ,[-0.3,-0.3], [-0.3,0.3]]
+#footprint_padding: 0.4
+#cost_scaling_factor: 1.0
+#cost_scaling_factor: 30.0
+#lethal_cost_threshold: 100
+#robot_radius: ir_of_robot
+inflation_radius: 0.5
+#START VOXEL STUFF
+
+#map_type: voxel
+map_type: costmap
+origin_z: 0.1
+#z_resolution * z_voxels = height [m]
+#z_resolution: 0.5
+#z_voxels max 16
+z_voxels: 16
+#unknown_threshold: 16
+#unknown_threshold: 16
+#mark_threshold: 0
+mark_threshold: 0
+##END VOXEL STUFF
+observation_sources: laser_scan_sensor point_cloud_sensor
+
+#observation_sources: laser_scan_sensor
+#observation_sources: point_cloud_sensor
+#
+laser_scan_sensor: {sensor_frame: back_laser, data_type: LaserScan, topic: back_scan, marking: true, clearing: true,min_obstacle_height: 1.0 ,max_obstacle_height: 3.0,expected_update_rate: 0.2 ,obstacle_range: 30.0 }
+point_cloud_sensor: {sensor_frame: base_link, data_type: PointCloud, topic: front_cloud, marking: true, clearing: true,obstacle_range: 30.0 ,min_obstacle_height: 0.9, max_obstacle_height: 2.0 ,expected_update_rate: 0.0 ,raytrace_range: 30.0, observation_persistence: 0.0}
+#point_cloud_sensor: {sensor_frame: back_laser, data_type: PointCloud, topic: back_cloud, marking: true, clearing: true,obstacle_range: 20.0 ,min_obstacle_height: 0.5, max_obstacle_height: 2.0 ,expected_update_rate: 0.0 ,raytrace_range: 20.0, observation_persistence: 0.0}

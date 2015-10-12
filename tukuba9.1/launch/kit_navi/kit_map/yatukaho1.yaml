@@ -1,0 +1,8 @@
+image: FMT1.pgm
+resolution: 0.100000
+#param KIT
+origin: [-121.100000, -99.800000, 0.000000]
+#origin: [0.0, 0.0,0.0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196

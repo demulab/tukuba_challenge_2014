@@ -1,0 +1,98 @@
+<launch>
+	<!-- FOG  -->
+	<node name="fog" pkg="fog" type="fog" output="screen">
+	<!--	<param name = "port_device" value="/dev/ttyUSB1"/> -->
+	</node>
+
+	<!-- WHELL  -->
+	<node name="wheel" pkg="wheel" type="wheel" output="screen">
+	<param name = "Port" value="/dev/ttyUSB-WHEEL"/>
+	</node>
+
+	<!-- ODOM  -->
+	<node name="odom" pkg="odom" type="odom" output="screen">
+	</node>
+
+
+	<!-- FRONT SCAN  -->
+	<node pkg="hokuyo_node" type="hokuyo_node" name="front_laser"  respawn="false" output="screen">
+      <param name="frame_id" value="/front_laser" />
+	  <param name="port" type="string" value="/dev/ttyACM1"/>
+	  <remap from="scan" to="/front_scan"/>
+	  <param name="skip" value="1"/>
+	<!--	<param name="min_ang" value="-1.2218"/> -->
+	</node>
+
+	<!-- BACK SCAN  -->
+	<node pkg="hokuyo_node" type="hokuyo_node" name="back_laser" respawn="false" output="screen">
+      <param name="frame_id" value="back_laser" />
+	  <param name="port" type="string" value="/dev/ttyACM0"/>
+	  <remap from="scan" to="back_scan"/>
+	  <param name="skip" value="1"/>
+	</node>
+
+
+	<!-- SERVO  -->
+	<node name="servo_node" pkg="servomove" type="servo_node" output="screen">
+		<!--<param name = "Port" value="/dev/ttyUSB-SERVO"/> -->
+		<param name = "servo_speed" value="100"/>
+		<param name = "start_deg" value="-30"/>
+		<param name = "end_deg" value="5"/>	
+	</node>
+
+
+	<!-- FRONT FILTER  (scan to pointcloud) -->
+	<node pkg="laser_filters" type="scan_to_cloud_filter_chain" name="front_shadow_filter">
+		<rosparam command="load" file="$(find launch)/ronbun/ronbun_yaml/my_laser_config.yaml" />
+		<rosparam command="load" file="$(find launch)/ronbun/ronbun_yaml/my_cloud_config.yaml" />
+		<param name="high_fidelity" value="true" />
+		<param name="target_frame" type="string" value="base_link" />
+		 <remap from="scan" to="/front_scan" />
+		<remap from="cloud_filtered" to="/front_cloud" />
+  </node>
+	
+  <!-- FRONT ASSEMBLER -->
+	<node type="point_cloud_assembler" pkg="laser_assembler" name="front_assembler">
+		<remap from="cloud" to="front_cloud"/>
+		<param name="max_clouds" type="int" value="1000" />
+		<param name="fixed_frame" type="string" value="base_link" />
+	</node>
+	<node name="point_cloud_converter" pkg="point_cloud_converter" type="point_cloud_converter" output="screen">
+	  <remap from = "points_in" to="front_cloud"/>
+	  <remap from = "points_out" to="front_cloud2"/>
+	</node>
+
+	<!-- BACK FILTER  (scan to pointcloud) -->
+	<node pkg="laser_filters" type="scan_to_cloud_filter_chain" name="back_shadow_filter">
+		<rosparam command="load" file="$(find launch)/ronbun/ronbun_yaml/my_laser_config.yaml" />
+		<rosparam command="load" file="$(find launch)/ronbun/ronbun_yaml/my_cloud_config.yaml" />
+		<param name="high_fidelity" value="true" />
+		<param name="target_frame" type="string" value="base_link" />
+		 <remap from="scan" to="/back_scan" />
+		<remap from="cloud_filtered" to="/back_cloud" />
+  </node>
+
+  <!-- BACK ASSEMBLER -->
+	<node type="point_cloud_assembler" pkg="laser_assembler" name="back_assembler">
+		<remap from="cloud" to="back_cloud"/>
+		<param name="max_clouds" type="int" value="1000" />
+		<param name="fixed_frame" type="string" value="base_link" />
+  </node>
+
+  <node type="laser_data_transform" pkg="waypoint_start" name="laser_data_transform">
+</node>
+  
+  <!-- TF LINK -->
+	<node name="tf_link" pkg="tf_link" type="tf_link" output="screen"> 
+	  <param name = "sleep" type="double" value="10.0"/>
+	  <param name = "tukuba" type="bool" value="true"/>
+	</node> 
+
+
+
+
+  <!-- Rviz -->
+	<node pkg="rviz" type="rviz" name="rviz" output="screen"> 
+	</node>
+
+</launch>

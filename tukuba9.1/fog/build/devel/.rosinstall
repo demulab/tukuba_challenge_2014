@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/demulab/tukuba_ws/src/tukuba9.1/fog/build/devel/setup.sh

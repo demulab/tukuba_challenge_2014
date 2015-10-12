@@ -1,0 +1,154 @@
+/**
+ * @file   tf_link_node.cpp
+ * @brief  transform broadcaster for robot infomation
+ * @author Kei SUGAWARA
+ * @date   2013.11.6
+ *
+ * @par Update Information
+ * - 2013.11.6
+ *  # Initial Version
+ *
+ */
+
+#include <ros/ros.h>
+#include <tf/transform_broadcaster.h>
+#include <std_msgs/Float64.h>
+#include <nav_msgs/Odometry.h>
+#include <sensor_msgs/NavSatFix.h>
+
+namespace {
+
+	// lidar front
+	tf::TransformBroadcaster *front_lidar;
+
+	// lidar rear
+	tf::TransformBroadcaster *rear_lidar;
+
+	// lidar low
+	tf::TransformBroadcaster *low_lidar;
+
+	// odmetry
+	tf::TransformBroadcaster *odometry;
+
+	//gps
+	tf::TransformBroadcaster *gps;
+
+	//KinectV2
+	tf::TransformBroadcaster *kinect2;
+	tf::TransformBroadcaster *kinect2_base;
+
+	//3D LiDAR
+	tf::TransformBroadcaster *hokuyo_3d;
+
+	//Rolling LiDAR
+	tf::TransformBroadcaster *roll_lidar;
+} // namespace
+
+void broadcastTF(tf::TransformBroadcaster *tf_broadcaster, 
+		double x, double y, double z, 
+		double roll, double pitch, double yaw, 
+		std::string frame, std::string child_frame)
+{
+
+	// »ÑÀª€ò¥¯¥©¡Œ¥¿¥Ë¥ª¥ó€ËÊÑŽ¹
+	tf::Quaternion tf_quat;
+	tf_quat.setRPY(roll, pitch, yaw);
+	geometry_msgs::Quaternion geom_quat;
+	tf::quaternionTFToMsg(tf_quat, geom_quat);
+
+	// ¥Õ¥ì¡Œ¥à€ÎÀßÄê
+	geometry_msgs::TransformStamped static_tf;
+	static_tf.header.stamp = ros::Time::now();
+	static_tf.header.frame_id = frame;
+	static_tf.child_frame_id = child_frame;
+
+	// ž¶ÅÀ€È»ÑÀª€ÎÀßÄê
+	static_tf.transform.translation.x = x;
+	static_tf.transform.translation.y = y;
+	static_tf.transform.translation.z = z;
+	static_tf.transform.rotation = geom_quat;
+
+	tf_broadcaster->sendTransform(static_tf);
+}
+
+void broadcastTF(tf::TransformBroadcaster *tf_broadcaster, 
+		double x, double y, double z, 
+		geometry_msgs::Quaternion quat,
+		std::string frame, std::string child_frame)
+{
+	// ¥Õ¥ì¡Œ¥à€ÎÀßÄê
+	geometry_msgs::TransformStamped static_tf;
+	static_tf.header.stamp = ros::Time::now();
+	static_tf.header.frame_id = frame;
+	static_tf.child_frame_id = child_frame;
+
+	// ž¶ÅÀ€È»ÑÀª€ÎÀßÄê
+	static_tf.transform.translation.x = x;
+	static_tf.transform.translation.y = y;
+	static_tf.transform.translation.z = z;
+	static_tf.transform.rotation = quat;
+
+	tf_broadcaster->sendTransform(static_tf);
+}
+
+void lidarCallback(const std_msgs::Float64 angle)
+{
+	double lidar_angle = -angle.data*M_PI/180; // degree to rad
+
+	//
+	//broadcastTF(front_lidar, -0.28, 0, 1.34, 0, lidar_angle, 0, "base_link", "front_link");
+	//broadcastTF(front_lidar, 0, 0, 0.08, 0, 0, 0, "front_link", "front_laser");
+
+	//
+	//broadcastTF(rear_lidar, -0.57, 0, 1.34, 0, lidar_angle, M_PI, "base_link", "rear_link");
+	//broadcastTF(rear_lidar, 0, 0, 0.08, 0, 0, 0, "rear_link", "rear_laser");
+
+	//broadcastTF(low_lidar, 0.22, 0, -0.18, 0, 0, 0, "base_link", "low_link");
+	//broadcastTF(low_lidar, 0.22, 0, 0, 0, 0, 0, "base_link", "low_link");
+	//broadcastTF(low_lidar, 0, 0, 0, 0, 0, 0, "low_link", "low_laser");
+	//broadcastTF(low_lidar, 0.28, 0, 0.135, 0, 0, 0, "base_link", "low_laser");
+}
+
+void odometryCallback(const nav_msgs::Odometry odom)
+{
+	double x = odom.pose.pose.position.x;
+	double y = odom.pose.pose.position.y;
+	double z = odom.pose.pose.position.z;
+	geometry_msgs::Quaternion quat = odom.pose.pose.orientation;
+	broadcastTF(odometry, x, y, z, quat, "odom", "base_link"); 
+	broadcastTF(low_lidar, 0.28, 0, 0.135, 0, 0, 0, "base_link", "low_laser");
+	broadcastTF(kinect2_base, 0.22071, 0, 0.53, 0, 0, 0, "base_link", "kinect2_base");
+	broadcastTF(kinect2, 0.0, 0.0, 0.055, -125* M_PI/180, 0.0, -90 * M_PI/180, "kinect2_base", "kinect2_link");
+	broadcastTF(hokuyo_3d, 0.22071, 0.0, 0.72, 0.0, -0.082, 0.0, "base_link", "hokuyo3d");
+}
+/*
+   void gpsCallback(const sensor_msgs::NavSatFix gps)
+   {
+
+   }*/
+
+int main(int argc, char** argv)
+{
+	ros::init(argc, argv, "tf_link_node");
+	//front_lidar = new tf::TransformBroadcaster;
+	//rear_lidar = new tf::TransformBroadcaster;
+	low_lidar = new tf::TransformBroadcaster;
+	odometry = new tf::TransformBroadcaster;
+	kinect2_base = new tf::TransformBroadcaster;
+	//gps = new tf::TransformBroadcaster;
+	kinect2 = new tf::TransformBroadcaster;
+	hokuyo_3d = new tf::TransformBroadcaster;
+	//roll_lidar = new tf::TransformBroadcaster;	
+
+	ros::NodeHandle nh;
+	//lidar_tf
+	ros::Subscriber lidar_sub = nh.subscribe<std_msgs::Float64>("/lidar_angle",100,lidarCallback);
+	//odom_tf
+	ros::Subscriber odom_sub = nh.subscribe<nav_msgs::Odometry>("/odom",100,odometryCallback);
+	//gps_tf
+	//ros::Subscriber gps_sub = nh.subscribe<sensor_msgs::NavSatFix>("fix",100,gpsCallback);
+
+
+	ros::spin();
+	return 0;
+}

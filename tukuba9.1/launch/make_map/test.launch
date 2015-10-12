@@ -1,0 +1,10 @@
+
+<launch>
+<!--  Urg -->
+	<node pkg="hokuyo_node" type="hokuyo_node" name="hokuyo_front"  respawn="false" output="screen">
+    	<param name="frame_id" value="back_laser" />
+		<param name="port" type="string" value="/dev/ttyACM1"/>
+		<param name="skip" value="1"/>
+	</node>
+	
+</launch>

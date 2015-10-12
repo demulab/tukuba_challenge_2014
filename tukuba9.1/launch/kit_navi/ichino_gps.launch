@@ -1,0 +1,35 @@
+<!--
+	Create map with FastSlam 
+	last update 2012.02.28
+-->
+
+
+<launch>
+	<!--  Odmetry -->
+<!--	<node pkg="odom" name="odom" type="odom" output="screen">
+	</node>
+-->
+
+	<!-- GPS -->
+	<node pkg="gps" name="gps_node" type="gps_node" output="screen">
+	</node>
+
+	<!-- GPSdata -->
+	<node pkg="gpsdata" name="gpsdata" type="gpsdata" output="screen">
+	</node>
+
+	<!-- GPSPF -->
+	<node pkg="gpspf" name="gpspf" type="gpspf" output="screen">
+	</node>
+
+	<!-- odomwrite -->
+	<node pkg="odomwrite" name="odomwrite" type="odomwrite" output="screen">
+	</node>
+
+	<!-- gpswrite -->
+	<node pkg="datawrite" name="datawrite" type="datawrite" output="screen">
+	</node>
+
+	<node pkg="rviz" type="rviz" name="rviz" output="screen"> 
+        </node>
+</launch>

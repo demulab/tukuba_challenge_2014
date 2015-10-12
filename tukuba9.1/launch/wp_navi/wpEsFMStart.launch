@@ -1,0 +1,38 @@
+<launch>
+	<!-- resd waypoints -->	
+<!--
+	<node name="readWayPoints" pkg="readWayPoints" type="readWayPoints" output="screen">
+	<param name ="file_pass" value="$(find readWayPoints)/"/>
+	</node>
+-->
+
+
+	<!-- write experiment data -->		
+<!--
+	<node name="writeData" pkg="writeData" type="writeData" output="screen">
+	<remap from="nextWayPoint" to="estimateWayPointFM"/>
+	<param name ="file_pass" value="$(find writeData)/"/>
+	<param name ="write_length" value ="1.0"/>	
+	</node>
+-->
+
+	<!-- send to waypoint data -->	
+<!--
+	<node name="writeData" pkg="writeData" type="writeData" output="screen">
+-->
+	<node name="wp2action_client" pkg="wp2action_client" type="wp2action_client" output="screen">
+	<remap from="nextWayPoint" to="estimateWayPointFM"/>
+	<param name ="file_pass" value="$(find writeData)/"/>
+	<param name ="write_length" value ="1.0"/>
+	</node>
+
+	<!-- waypoint estimation -->
+	<node name="wp_estimation_FM" pkg="wp_estimation_FM" type="wp_estimation_FM" output="screen">
+	<param name ="estimation_pass" value="$(find wp_estimation_FM)/"/>
+	<param name ="mapping_pass" value="$(find wp_estimation_FM)/"/>
+	<param name ="matching_pass" value="$(find wp_estimation_FM)/"/>
+	<param name ="particle_pass" value="$(find wp_estimation_FM)/"/>
+	<remap from="originalWayPoint" to="nextWayPoint"/>
+	</node>
+
+</launch>

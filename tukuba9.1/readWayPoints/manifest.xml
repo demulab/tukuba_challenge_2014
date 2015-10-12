@@ -1,0 +1,19 @@
+<package>
+  <description brief="readWayPoints">
+
+     readWayPoints
+
+  </description>
+  <author>shohei</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/readWayPoints</url>
+  <depend package="std_msgs"/>
+  <depend package="geometry_msgs"/>
+  <depend package="tf"/>
+  <depend package="roscpp"/>
+  <depend package="rospy"/>
+
+</package>
+
+

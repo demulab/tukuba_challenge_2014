@@ -1,0 +1,30 @@
+<launch>
+	<!-- resd waypoints -->	
+<!--
+	<node name="readWayPoints" pkg="readWayPoints" type="readWayPoints" output="screen">
+	<param name ="file_pass" value="$(find readWayPoints)/"/>
+	</node>
+-->
+
+	<!-- write experiment data -->		
+	<node name="writeData" pkg="writeData" type="writeData" output="screen">
+	<remap from="nextWayPoint" to="estimateWayPoint"/>
+	<param name ="file_pass" value="$(find writeData)/"/>
+	<param name ="write_length" value ="1.0"/>
+	</node>
+
+	<!-- send to waypoint data -->	
+	<node name="wp2action_client" pkg="wp2action_client" type="wp2action_client" output="screen">
+	<remap from="nextWayPoint" to="estimateWayPoint"/>
+	</node>
+
+	<!-- waypoint estimation -->
+	<node name="wp_estimation" pkg="wp_estimation" type="wp_estimation" output="screen">
+	<param name ="estimation_pass" type="string" value="$(find wp_estimation)/"/>
+	<param name ="mapping_pass" value="$(find wp_estimation)/"/>
+	<param name ="matching_pass" value="$(find wp_estimation)/"/>
+	<param name ="particle_pass" value="$(find wp_estimation)/"/>
+	<remap from="originalWayPoint" to="nextWayPoint"/>
+	</node>
+
+</launch>

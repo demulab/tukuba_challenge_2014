@@ -1,0 +1,19 @@
+<launch>
+
+	<node pkg="joy" name="joy_node" type="joy_node" output="screen">
+	</node>
+
+	<node pkg="fog" name="fog" type="fog" output="screen">
+	</node>
+
+
+	<node pkg="wheel" name="wheel" type="wheel" output="screen">
+	</node>
+
+	<node pkg="transform_joy2navi" name="transform_joy2navi" type="transform_joy2navi" output="screen">
+	</node>
+
+	<node pkg="odom" name="odom" type="odom" output="screen">
+	</node>
+
+</launch>

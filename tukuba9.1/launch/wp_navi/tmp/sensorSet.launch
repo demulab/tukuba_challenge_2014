@@ -1,0 +1,72 @@
+<launch>
+
+  <!--MainSensor-->
+  <node name="fog" pkg="fog" type="fog" output="screen">
+	<param name = "port_device" value="/dev/ttyUSB0"/>
+  </node>
+
+  <node name="wheel" pkg="wheel" type="wheel" output="screen">.txt
+	<param name = "Port" value="/dev/ttyUSB-WHEEL"/>
+  </node>
+
+  <node name="odom" pkg="odom" type="odom" output="screen">
+  </node>
+<!--  
+  <node pkg="hokuyo_node" type="hokuyo_node" name="front_laser"  respawn="false" output="screen">
+    <param name="frame_id" value="front_laser" />
+	<param name="port" type="string" value="/dev/ttyACM1"/>
+	<remap from="scan" to="front_scan"/>
+  </node>
+-->
+
+  <node pkg="urg_node" type="urg_node" name="front_laser"  respawn="false" output="screen">
+    <param name="frame_id" value="front_laser" />
+	<param name="port" type="string" value="/dev/ttyACM1"/>
+	<!--remap from="scan" to="front_scan"/-->
+  </node>
+
+<!--
+  <node pkg="hokuyo_node" type="hokuyo_node" name="rear_laser" respawn="false" output="screen">
+    <param name="frame_id" value="rear_laser" />
+    <param name="port" type="string" value="/dev/ttyACM0"/>
+	<remap from="scan" to="rear_scan"/>
+  </node>
+-->
+
+<!--  
+  <node pkg="hokuyo_node" type="hokuyo_node" name="low_laser" respawn="false" output="screen">
+	<param name="min_ang" type="double" value="-0.785" />
+    <param name="max_ang" type="double" value="0.785" />
+	<param name="min_ang" type="double" value="-1.396" />
+    <param name="max_ang" type="double" value="1.396" />
+
+    <param name="frame_id" value="low_laser" />
+    <param name="port" type="string" value="/dev/ttyACM2"/>
+	<remap from="scan" to="low_scan"/>
+  </node>
+-->
+ 
+  <node pkg="lidar_controller" name="lidar_control_node" type="lidar_control_node" output="screen">
+	<param name="device" value="/dev/ttyUSB-SERVO"/>
+	<param name="angle_limit_high" value="-10"/>
+	<param name="angle_limit_low" value="-10"/>
+	<param name="speed" value= "0"/>
+  </node>
+
+  <node name="tf_link" pkg="tf_link" type="tf_link" output="screen">
+	<!--remap from="odom" to="odometry/filtered"/-->
+  </node> 
+
+  <node pkg="rviz" type="rviz" name="rviz" output="screen"> 
+  </node>
+
+  <!-- DemuDAS -->
+<!--
+  <include file="$(find demu_das)/launchfiles/www.launch" /> 
+-->
+<!--
+  <node pkg="laser_to_mapping" name="laser_to_mapping" type="laser_to_mapping" output="screen"> 
+  <remap from="scan" to="front_scan"/>
+  </node>
+-->
+</launch>

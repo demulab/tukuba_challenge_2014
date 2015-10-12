@@ -1,0 +1,98 @@
+<launch>
+
+	<node name="fog" pkg="fog" type="fog" output="screen">
+<!--		<param name = "port_device" value="/dev/ttyUSB1"/> -->
+	</node>
+
+	
+	<node name="wheel" pkg="wheel" type="wheel" output="screen">
+		<param name = "Port" value="/dev/ttyUSB-WHEEL"/>
+	</node>
+
+	<node name="odom" pkg="odom" type="odom" output="screen">
+	</node>
+
+
+	<node pkg="hokuyo_node" type="hokuyo_node" name="front_laser"  respawn="false" output="screen">
+      <param name="frame_id" value="front_laser" />
+	  <param name="port" type="string" value="/dev/ttyACM1"/>
+	  <remap from="scan" to="front_scan"/>
+	  <param name="skip" value="1"/>
+	  <param name="min_ang" value=" -2.2689" />
+	  <param name="max_ang" value="  2.2689" />
+	<!--	<param name="min_ang" value="-1.2218"/> -->
+	</node>
+
+	<node pkg="hokuyo_node" type="hokuyo_node" name="back_laser" respawn="false" output="screen">
+      <param name="frame_id" value="back_laser" />
+	  <param name="port" type="string" value="/dev/ttyACM0"/>
+	  <remap from="scan" to="back_scan"/>
+	  <param name="skip" value="1"/>
+	</node>
+<!--
+	<node pkg="hokuyo_node" type="hokuyo_node" name="under_laser" respawn="false" output="screen">
+      <param name="frame_id" value="under_laser" />
+	  <param name="port" type="string" value="/dev/ttyACM2"/>
+	  <remap from="scan" to="under_scan"/>
+	  <param name="skip" value="1"/>
+	</node>
+-->
+	<node name="servo_node" pkg="servomove" type="servo_node" output="screen">
+<!--		<param name = "Port" value="/dev/ttyUSB-SERVO"/> -->
+		<!-- <param name = "servo_speed" value="150"/> -->
+		<param name = "servo_speed" value="40"/>
+
+		<!--<param name = "start_deg" value="-40"/>-->
+		<!--<param name = "start_deg" value="-20"/>-->
+		<!--<param name = "start_deg" value="-5"/>-->
+		<!--<param name = "end_deg" value="2"/>-->
+		<!--<param name = "end_deg" value="5"/>-->
+		<param name = "start_deg" value="3"/>
+		<param name = "end_deg" value="3"/>
+
+
+<!--
+		<param name = "start_deg" value="0"/>
+		<param name = "end_deg" value="0"/>	
+-->
+		</node>
+
+
+  <node pkg="laser_filters" type="scan_to_cloud_filter_chain" name="tilt_shadow_filter">
+		<rosparam command="load" file="$(find launch)/kit_navi/kit_yaml/my_laser_config.yaml" />
+		<rosparam command="load" file="$(find launch)/kit_navi/kit_yaml/my_cloud_config.yaml" />
+		<param name="high_fidelity" value="true" />
+		<param name="target_frame" type="string" value="base_link" />
+		 <remap from="scan" to="front_scan" />
+		<!--<remap from="scan" to="laser_to_mapping" /> -->
+		<remap from="cloud_filtered" to="front_cloud" />
+  </node>
+
+<!--
+	<node type="point_cloud_assembler" pkg="laser_assembler" name="front_assembler">
+		<remap from="cloud" to="front_cloud"/>
+		<param name="max_clouds" type="int" value="1000" />
+		<param name="fixed_frame" type="string" value="base_link" />
+	</node>
+	-->
+
+<!--
+	<node type="laser_data_transform" pkg="waypoint_start" name="laser_data_transform">
+	</node>
+-->
+
+<!--	<node pkg="tf" type="static_transform_publisher" name="link_broadcast" args="0 0 0 0 0 0 /map /odom 100" /> -->
+	<node name="tf_link" pkg="tf_link" type="tf_link" output="screen"> 
+	  <param name = "tukuba" type="bool" value="false"/>
+	  <param name = "under_ang" type="double" value="-10.0"/>
+	  <param name = "sleep" type="double" value="10.0"/>
+	</node> 
+
+	<node pkg="rviz" type="rviz" name="rviz" output="screen"> 
+   </node>
+	<node pkg="laser2amcl" name="laser2amcl" type="laser2amcl" output="screen">
+		<remap from="scan" to="front_scan"/>
+		<param name = "match_angle" value="0"/>
+		<param name = "permissible_error" value="1"/>
+	</node>
+</launch>

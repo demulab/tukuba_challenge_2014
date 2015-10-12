@@ -1,0 +1,10 @@
+date 2012.04.04
+author takesako shohei
+
+2012.04.04の時点でFMT研究所の1階を自律走行可能
+
+動作方法
+1.使用する地図をkit_mapディレクトリに入れる
+2.kit_yamlディレクトリ内のmap74.yamlに「image: XXX.pgm(現時点(2012.04.04)でFMT1)」を記載
+3.kit_move_base.lunch kit_sensor.launch を起動
+

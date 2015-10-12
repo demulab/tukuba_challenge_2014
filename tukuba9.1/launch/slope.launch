@@ -1,0 +1,41 @@
+<launch>
+	<node pkg="joy" name="joy_node" type="joy_node" output="screen">
+	</node>
+
+	<node pkg="fog" name="fog" type="fog" output="screen">
+		<param name = "port_device" value="/dev/ttyUSB1"/> 
+	</node>
+
+
+	<node pkg="wheel" name="wheel" type="wheel" output="screen">
+		<param name = "Port" value="/dev/ttyUSB-WHEEL"/>
+	</node>
+
+	<node pkg="transform_joy2navi" name="transform_joy2navi" type="transform_joy2navi" output="screen">
+	</node>
+
+	<node pkg="odom" name="odom" type="odom" output="screen">
+	</node>
+
+	<node pkg="hokuyo_node" type="hokuyo_node" name="hokuyo_front"  respawn="false" output="screen">
+    	<param name="frame_id" value="front_laser" />
+		<param name="port" type="string" value="/dev/ttyACM0"/>
+		<param name="skip" value="1"/>
+		<remap from="scan" to="front_scan"/>
+	</node>
+
+	<node pkg="laser_to_mapping" name="laser_to_mapping" type="laser_to_mapping" output="screen">
+	</node>
+
+	<node pkg="servomove" name="servo_node" type="servo_node" output="screen">
+		<param name = "Port" value="/dev/ttyUSB-SERVO"/>
+		<param name = "servo_speed" value="50"/>
+		<param name = "start_deg" value="-5"/>
+		<param name = "end_deg" value="15"/>
+	</node>
+
+	<node name="tf_link" pkg="tf_link" type="tf_link" output="screen">
+	  <param name = "sleep" type="double" value="10.0"/>
+	</node>
+
+</launch>

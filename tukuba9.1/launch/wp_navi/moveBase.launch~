@@ -1,0 +1,39 @@
+<launch>
+	<master auto="start"/>
+
+	<!-- Run the map server -->
+<!--	
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find launch)/wp_navi/map/ooshimizu.yaml my_map_resolution"/>	
+	
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find launch)/wp_navi/map/fmt_challenge.yaml my_map_resolution"/>	
+
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find launch)/wp_navi/map/fmt_manual.yaml my_map_resolution"/>
+-->	
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find launch)/wp_navi/map/yatukaho_1:.yaml my_map_resolution"/>	
+	
+	<!--- Run AMCL -->	
+	<include file="$(find launch)/wp_navi/amcl_diff.launch" />
+	
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+		
+		<param name="controller_patience" value="5.0" />
+		<param name="planner_frequency" value="10.0" />
+		<param name="planner_patience" value="5.0" />
+		<!-- <param name="oscillation_timeout" value="5.0" /> -->
+		<!--<param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />-->
+
+		<!--rosparam file="$(find launch)/wp_navi/yaml_set/costmap_common.yaml" command="load" ns="global_costmap" /-->
+		<!--rosparam file="$(find launch)/wp_navi/yaml_set/costmap_common.yaml" command="load" ns="local_costmap" /-->
+
+
+		<rosparam file="$(find launch)/wp_navi/yaml_set/costmap_common_params.yaml" command="load" ns="global_costmap" />
+		<rosparam file="$(find launch)/wp_navi/yaml_set/costmap_common_params.yaml" command="load" ns="local_costmap" />
+	
+		<rosparam file="$(find launch)/wp_navi/yaml_set/local_costmap_params.yaml" command="load" />
+		<rosparam file="$(find launch)/wp_navi/yaml_set/global_costmap_params.yaml" command="load" />
+		<rosparam file="$(find launch)/wp_navi/yaml_set/base_local_planner_params.yaml" command="load" />
+		<!--<rosparam file="$(find launch)/wp_navi/yaml_set/dwa_local_planner_params.yaml" command="load" ns="DWAPlannerROS" />-->
+		<!--remap from="odom" to="odometry/filtered"/-->
+	</node>
+
+</launch>

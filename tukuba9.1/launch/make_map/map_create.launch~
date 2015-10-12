@@ -1,0 +1,103 @@
+<!--
+	Create map with FastSlam 
+	last update 2012.02.28
+-->
+
+
+<launch>
+	<!-- JoyStick -->
+	<node pkg="joy" name="joy_node" type="joy_node" output="screen">
+	</node>
+
+	<!-- FOG -->
+	<node pkg="fog" name="fog" type="fog" output="screen">
+		<param name = "port_device" value="/dev/ttyUSB0"/> 
+	</node>
+
+
+	<!-- Wheel Control -->
+	<node pkg="wheel" name="wheel" type="wheel" output="screen">
+		<param name = "Port" value="/dev/ttyUSB-WHEEL"/>
+	</node>
+
+	<!-- Joystick to Navigation -->
+	<node pkg="transform_joy2navi" name="transform_joy2navi" type="transform_joy2navi" output="screen">
+	</node>
+
+	<!--  Odmetry -->
+	<node pkg="odom" name="odom" type="odom" output="screen">
+	</node>
+
+	<!--  Urg -->
+	<node pkg="hokuyo_node" type="hokuyo_node" name="hokuyo_front"  respawn="false" output="screen">
+    	<param name="frame_id" value="front_laser" />
+		<param name="port" type="string" value="/dev/ttyACM0"/>
+		<param name="skip" value="1"/>
+	</node>
+	
+	<!--  ServoControl -->
+
+<!--	<node pkg="servomove" name="servo_node" type="servo_node" output="screen">
+		<param name = "Port" value="/dev/ttyUSB-SERVO"/>
+		<param name = "servo_speed" value="20"/>
+		<param name = "start_deg" value="3"/>
+	 <param name = "end_deg" value="-18"/> 
+		<param name = "end_deg" value="3"/> 
+	</node>
+-->
+
+  <node pkg="lidar_controller" name="lidar_control_node" type="lidar_control_node" output="screen">
+	<param name="device" value="/dev/ttyUSB-SERVO"/>
+	<param name="angle_limit_high" value="0"/>
+	<param name="angle_limit_low" value="0"/>
+	<param name="speed" value= "30"/>
+	</node>
+
+<!--
+	<node pkg="laser_to_mapping" name="laser_to_mapping" type="laser_to_mapping" output="screen">
+	</node>
+-->
+	<!--  SLAM -->
+	<node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+		<!--<remap from="scan" to="laser_to_mapping"/>-->
+		<param name="map_update_interval" value="0.5"/>
+		<param name="linearUpdate" value="1.0"/>
+		<param name="angularUpdate" value="0.5"/>
+		<param name="particles" value="30"/>
+		<param name="occ_thresh" value="0.21"/>
+		<param name="delta" value="0.1"/>
+
+
+		<param name="maxUrange" value="40.0"/>
+		<param name="sigma" value="0.05"/>
+		<param name="kernelSize" value="1"/>
+		<param name="lstep" value="0.03"/>
+		<param name="astep" value="0.03"/>
+		<param name="iterations" value="5"/>
+		<param name="lsigma" value="0.075"/>
+		<param name="ogain" value="3.0"/>
+		<param name="lskip" value="0"/>
+		<param name="srr" value="0.2"/>
+		<param name="srt" value="0.005"/>
+		<param name="str" value="0.2"/>
+		<param name="stt" value="0.005"/>
+
+		<param name="temporalUpdate" value="-1.0"/>
+		<param name="resampleThreshold" value="0.5"/>
+
+		<param name="xmin" value="-100.0"/>
+		<param name="ymin" value="-100.0"/>
+		<param name="xmax" value="100.0"/>
+		<param name="ymax" value="100.0"/>
+
+		<param name="llsamplerange" value="0.01"/>
+		<param name="llsamplestep" value="0.01"/>
+		<param name="lasamplerange" value="0.005"/>
+		<param name="lasamplestep" value="0.005"/>
+	</node>
+
+	<!--  TfLink -->
+	<node name="tf_link" pkg="tf_link" type="tf_link" output="screen">
+	  <param name = "sleep" type="double" value="10.0"/>
+	</node>
+</launch>

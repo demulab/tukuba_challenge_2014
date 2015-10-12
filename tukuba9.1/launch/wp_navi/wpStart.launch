@@ -1,0 +1,22 @@
+<launch>
+	
+	<!-- resd waypoints -->	
+<!--
+	<node name="readWayPoints" pkg="readWayPoints" type="readWayPoints" output="screen">
+	<param name ="file_pass" value="$(find readWayPoints)/"/>
+	</node>
+-->
+
+	<!-- send to waypoint data -->		
+	<node name="wp2action_client" pkg="wp2action_client" type="wp2action_client" output="screen">
+	<!--remap from="amcl_pose" to="amcl_pose_gps"/-->
+	</node>
+	
+	<!-- write experiment data -->		
+<!--
+	<node name="writeData" pkg="writeData" type="writeData" output="screen">
+	<param name ="file_pass" value="$(find writeData)/"/>
+	<param name ="write_length" value ="1.0"/>
+	</node>
+-->
+</launch>

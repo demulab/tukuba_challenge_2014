@@ -1,0 +1,107 @@
+planner_patience: 1.0
+#conservative_reset_dist: 0.1
+#clearing_radius: 0.59
+#clearing_rotation_allowed: false
+#shutdown_costmaps: true
+TrajectoryPlannerROS:
+#max_vel_x: 0.6
+#min_vel_x: 0.4
+#max_rotational_vel: 0.4
+#min_in_place_rotational_vel: 0.25
+
+#2012.10.26
+#    max_vel_x: 0.8
+#    min_vel_x: 0.2
+#    max_vel_x: 4.0
+#    min_vel_x: 0.6
+
+#in
+#max_vel_x: 1.5
+    max_vel_x: 0.4
+    min_vel_x: 0.3
+
+#out
+#    max_vel_x: 3.5
+#    min_vel_x: 0.6
+
+
+#    backup_vel: -0.2
+#    escape_vel: -0.2
+
+    backup_vel: -0.2
+    escape_vel: -0.2
+
+
+#2012.10.26
+#in
+    max_rotational_vel: 0.4
+#out
+#    max_rotational_vel: 3.5
+
+#2012.10.26
+#in
+    min_in_placie_rotational_vel: 0.3
+#out
+#    min_in_place_rotational_vel: 0.8
+
+
+#   acc_lim_th: 3.0
+#   acc_lim_x: 2.5
+#   acc_lim_y: 2.5
+    
+#acc_lim_th: 1.0
+
+#    acc_lim_th: 2.5
+#    acc_lim_x: 2.5
+#    acc_lim_y: 2.5
+
+    acc_lim_th: 2.5
+    acc_lim_x: 2.0
+    acc_lim_y: 0.0
+
+    holonomic_robot: false 
+#   yaw_goal_tolerance: 0.18
+#   xy_goal_tolerance: 0.5
+    
+#    yaw_goal_tolerance: 0.4
+#    xy_goal_tolerance: 0.5
+
+#2012.11.26
+#    yaw_goal_tolerance: 0.4
+#    xy_goal_tolerance: 0.7
+
+    yaw_goal_tolerance: 1.0
+    xy_goal_tolerance: 0.1
+
+
+#    goal_distance_bias: 0.6
+#    path_distance_bias: 0.5
+    
+    goal_distance_bias: 0.7
+    path_distance_bias: 0.5
+
+#    path_distance_bias: 0.8
+
+#    occdist_scale: 0.02
+# occdist_scale: 0.01
+    occdist_scale: 0.55
+#heading_lookahead: 0.325
+    heading_lookahead: 0.0325
+#    heading_scoring: true 
+#    heading_scoring_timestep: 0.3
+#heading_lookahead: 1.5
+#    oscillation_reset_dist: 0.1
+
+    controller_frequency: 20.0
+#sim_time: 3.0
+    sim_time: 5.0
+    sim_granularity: 0.025
+    vx_samples: 5
+    vtheta_samples: 40
+#    dwa: false
+    dwa: true
+#move_slow_and_clear:
+#    clearing_distance: 0.25
+#    limited_trans_speed: 0.2
+#    limited_rot_speed: 1.0
+#    limited_distance: 1.0
